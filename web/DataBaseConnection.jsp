@@ -23,6 +23,7 @@
 
 <h1><%=titulo%></h1>
 <hr />
+<p><b>Consultas disponíveis</b></p>
 
 <a href="./index.jsp"><b>1.</b> Quais hotéis de uma cidade possuem restaurante?</a><br>
 <a href="./index.jsp"><b>2.</b> Qual a especialidade de um restaurante?</a><br>
