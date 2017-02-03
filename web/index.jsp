@@ -15,7 +15,7 @@
 <h1>Bem-Vindo!</h1>
 <hr />
 
-<p>Escolha o banco de dados que deseja fazer consultas:</p>
+<p>Escolha o banco de dados que deseja realizar consultas:</p>
 
 <form method="GET" action="DataBaseConnection.jsp">
   <INPUT TYPE="RADIO" NAME="OPCAO" VALUE="op1" checked> Oracle
