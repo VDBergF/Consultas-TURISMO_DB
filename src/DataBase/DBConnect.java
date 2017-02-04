@@ -24,6 +24,19 @@ public class DBConnect {
             connectPostgres();
     }
 
+    public Connection getConnection(String opcao) {
+        if (opcao.equals("op1")) return getConOracle();
+        return getConPostgres();
+    }
+
+    private Connection getConOracle() {
+        return conOracle;
+    }
+
+    private Connection getConPostgres() {
+        return conPostgres;
+    }
+
     public boolean connectOracle() {
         System.out.println("-------- Oracle JDBC Connection Testing ------");
 
