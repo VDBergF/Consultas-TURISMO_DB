@@ -3,8 +3,8 @@
 <%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: berg
-  Date: 04/02/17
-  Time: 20:40
+  Date: 03/02/17
+  Time: 19:05
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -21,33 +21,33 @@
 </head>
 <body>
 
-<p>Entre com o número da população desejada</p>
+<p>Entre com o nome da cidade desejada</p>
 
-<form method="get" action="Cidade.jsp">
-    <input type="text" name="cidade2">
-    <input type="submit" name="cidade2" value="Confirmar"><br>
+<form method="get" action="HoteisComRestaurante.jsp">
+    <input type="text" name="cidade">
+    <input type="submit" name="cidade" value="Confirmar"><br>
 </form>
 <hr />
 <h1>Resultados:</h1>
 
-<p>Que cidades possuem população menor que X habitantes?</p>
+<p>Quais hotéis de uma cidade possuem restaurante?</p>
 
 <table border="2" CELLSPACING=2 CELLPADDING=6>
     <tr>
-        <TH>Cidades</TH>
+        <TH>Hoteis</TH>
     </tr>
 
     <%
-        String busca = request.getParameter("cidade2");
+        String busca = request.getParameter("cidade");
         if (busca != null && !busca.isEmpty()) {
-            ArrayList<String> cidades = consulta.cidadePopu(busca);
-            for (int i = 0; i < cidades.size(); i++) { %>
+            ArrayList<String> hoteis = consulta.hoteisComRestaurante(busca);
+            for (int i = 0; i < hoteis.size(); i++) { %>
 
-    <TR>
-        <TD> <%= cidades.get(i) %></td>
-    </TR>
-    <% }
-    }%>
+                <TR>
+                    <TD> <%= hoteis.get(i) %></td>
+                </TR>
+        <% }
+        }%>
 
 </table>
 

@@ -88,7 +88,7 @@ public class DBConnect {
         System.out.println("PostgreSQL JDBC Driver Registered!");
 
         try {
-            conPostgres = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "041097");
+            conPostgres = DriverManager.getConnection("jdbc:postgresql://localhost:5432/TURISMO_DB", "postgres", "041097");
 
         } catch (SQLException e) {
             System.out.println("Connection Failed! Check output console");
