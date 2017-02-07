@@ -36,7 +36,7 @@
 <a href="./Consultas/Museu.jsp"><b>5.</b> Qual o fundador de um museu?</a><br>
 <a href="./Consultas/Igreja.jsp"><b>6.</b> Qual a data de construção de uma igreja?</a><br>
 <a href="./Consultas/Cidade.jsp"><b>7.</b> Que cidades possuem população menor que X habitantes?</a><br>
-<a href="./Consultas/HoteisComRestaurante.jsp"><b>8.</b> Que cidade oferece o maior número de pontos turisticos?</a><br>
+<a href="./Consultas/Recursos.jsp"><b>8.</b> Que cidade oferece o maior número de pontos turisticos?</a><br>
 
 
 <%--<form method="GET" action="Consultas/HoteisComRestaurante.jsp">--%>

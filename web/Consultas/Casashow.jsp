@@ -21,7 +21,7 @@
 </head>
 <body>
 
-p>Entre com o nome da cidade desejada</p>
+<p>Entre com o nome da cidade desejada</p>
 
 <form method="get" action="Casashow.jsp">
     <input type="text" name="casashow">

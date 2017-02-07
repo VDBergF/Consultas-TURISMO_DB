@@ -1,5 +1,7 @@
 <%@ page import="DataBase.DBConnect" %>
-<%@ page import="Consultas.Consulta" %><%--
+<%@ page import="Consultas.Consulta" %>
+<%@ page import="java.util.ArrayList" %>
+<%--
   Created by IntelliJ IDEA.
   User: berg
   Date: 03/02/17
@@ -38,12 +40,14 @@
     <%
         String busca = request.getParameter("museu");
         if (busca != null && !busca.isEmpty()) {
-            String nome = consulta.fundadorMuseu(busca);%>
-             <%if (nome != null && !nome.isEmpty()) {%>
-                <TR>
-                    <TD> <%= nome %></td>
-                </TR>
-            <%} else {
+            ArrayList<String> nomes = consulta.buscaFundadorMuseu(busca);
+             if (nomes != null && !nomes.isEmpty()) {
+                for (String museu: nomes) {%>
+                    <TR>
+                        <TD> <%= museu %></td>
+                    </TR>
+                <%}
+            } else {
                 out.println("Não foram encontrado resultados para a pesquisa...");
              }
          }%>

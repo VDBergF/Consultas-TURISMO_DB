@@ -1,5 +1,7 @@
 package Consultas;
 
+import Modelos.Igreja;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -76,6 +78,45 @@ public class Consulta {
         return cidades;
     }
 
+    public ArrayList<Igreja> dataConstIgreja(String str, boolean buscaNome) {
+        Statement stmt = null;
+        ArrayList<Igreja> nomeOuCodigo = new ArrayList<>();
+        try {
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            System.out.println("error ao pegar statement");
+            e.printStackTrace();
+        }
+        String sql = "";
+        if (buscaNome) sql = "SELECT * FROM IGREJA WHERE NOME = '" + str + "'";
+        else sql = "SELECT DATA_CONSTRUCAO FROM IGREJA WHERE CODIGO = " + str;
+
+        ResultSet rs = null;
+        String nome = "";
+        int codigo;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                if (buscaNome) {
+                    codigo = rs.getInt("codigo");
+                    nome = rs.getString("nome");
+                    nomeOuCodigo.add(new Igreja(codigo, nome, null));
+                } else {
+                    nome = rs.getString("data_construcao");
+                    nomeOuCodigo.add(new Igreja(-1, null, nome));
+                }
+            }
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("error ao pegar resultSet");
+            e.printStackTrace();
+        }
+
+        return nomeOuCodigo;
+    }
+
     public ArrayList<String> csSwComRestaurante(String cidade) {
         Statement stmt = null;
         ArrayList<String> cshow = new ArrayList<>();
@@ -138,7 +179,7 @@ public class Consulta {
         return especialidade;
     }
 
-    public String fundadorMuseu(String museu) {
+    public String cidadePontoTuris() {
         Statement stmt = null;
         String nome = "";
 
@@ -148,8 +189,7 @@ public class Consulta {
             System.out.println("error ao pegar statement");
             e.printStackTrace();
         }
-        String sql = "SELECT NOME FROM FUNDADOR JOIN FUNDA ON (FUNDADOR.CODIGO = FUNDA.CODIGO_FUNDADOR) " +
-                "WHERE FUNDA.CODIGO_MUSEU = (SELECT CODIGO FROM MUSEU WHERE NOME = '" + museu + "')";
+        String sql = "SELECT ESPECIALIDADE FROM RESTAURANTE WHERE NOME = '" + nome + "'";
 
         ResultSet rs = null;
         try {
@@ -167,5 +207,37 @@ public class Consulta {
         }
 
         return nome;
+    }
+
+    public ArrayList<String> buscaFundadorMuseu(String museu) {
+        Statement stmt = null;
+        ArrayList<String> nomes = new ArrayList<>();
+
+        try {
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            System.out.println("error ao pegar statement");
+            e.printStackTrace();
+        }
+        String sql = "SELECT FUNDADOR.NOME FROM FUNDA INNER JOIN FUNDADOR ON FUNDA.CODIGO_FUNDADOR = FUNDADOR.CODIGO\n" +
+                "INNER JOIN MUSEU ON MUSEU.CODIGO = FUNDA.CODIGO_MUSEU WHERE MUSEU.NOME = '" + museu + "'";
+
+        ResultSet rs = null;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String nome = rs.getString("nome");
+                nomes.add(nome);
+                System.out.println(nome);
+            }
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("error ao pegar resultSet");
+            e.printStackTrace();
+        }
+
+        return nomes;
     }
 }
