@@ -31,7 +31,7 @@
 
 <a href="Consultas/HoteisComRestaurante.jsp"><b>1.</b> Quais hotéis de uma cidade possuem restaurante?</a><br>
 <a href="./Consultas/Restaurante.jsp"><b>2.</b> Qual a especialidade de um restaurante?</a><br>
-<a href="./Consultas/HoteisComRestaurante.jsp"><b>3.</b> Qual o valor médio de quartos de luxo em todos os hotéis de uma cidade?</a><br>
+<a href="./Consultas/Hotel.jsp"><b>3.</b> Qual o valor médio de quartos de luxo em todos os hotéis de uma cidade?</a><br>
 <a href="./Consultas/Casashow.jsp"><b>4.</b> Quais casas de show de uma cidade possuem restaurante?</a><br>
 <a href="./Consultas/Museu.jsp"><b>5.</b> Qual o fundador de um museu?</a><br>
 <a href="./Consultas/Igreja.jsp"><b>6.</b> Qual a data de construção de uma igreja?</a><br>

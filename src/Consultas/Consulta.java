@@ -78,6 +78,71 @@ public class Consulta {
         return cidades;
     }
 
+    public ArrayList<String> cidadeComMaisRecursos() {
+        Statement stmt = null;
+        ArrayList<String> cidades = new ArrayList<>();
+        try {
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            System.out.println("error ao pegar statement");
+            e.printStackTrace();
+        }
+        String sql = "SELECT NOME AS n FROM CIDADE WHERE CODIGO = (SELECT c_codigo_i AS c FROM (SELECT c_codigo_i, count_i + count_m + count_cc AS soma_atr FROM\n" +
+                "  (SELECT CIDADE.CODIGO as c_codigo_i, COUNT(IGREJA.CODIGO) AS count_i\n" +
+                "   FROM CIDADE, IGREJA\n" +
+                "   WHERE (CIDADE.CODIGO = IGREJA.CODIGO_CIDADE)\n" +
+                "   GROUP BY CIDADE.CODIGO\n" +
+                "  ) I,\n" +
+                "\n" +
+                "  (SELECT  CIDADE.CODIGO as c_codigo_m,  COUNT(MUSEU.CODIGO) AS count_m FROM CIDADE, MUSEU\n" +
+                "WHERE CIDADE.CODIGO = MUSEU.CODIGO_CIDADE\n" +
+                "GROUP BY CIDADE.CODIGO) M,\n" +
+                "\n" +
+                "  (SELECT\n" +
+                "  CIDADE.CODIGO as c_codigo_cc,\n" +
+                "  COUNT(CASA_SHOW.CODIGO) AS count_cc\n" +
+                "FROM CIDADE, CASA_SHOW\n" +
+                "WHERE CIDADE.CODIGO = CASA_SHOW.CODIGO_CIDADE\n" +
+                "GROUP BY CIDADE.CODIGO) CC WHERE CC.c_codigo_cc = I.c_codigo_i AND I.c_codigo_i = M.c_codigo_m),\n" +
+                "\n" +
+                " (SELECT MAX(soma_atr) AS qnt_max FROM (SELECT c_codigo_i, count_i + count_m + count_cc AS soma_atr FROM\n" +
+                "  (SELECT CIDADE.CODIGO as c_codigo_i, COUNT(IGREJA.CODIGO) AS count_i\n" +
+                "   FROM CIDADE, IGREJA\n" +
+                "   WHERE (CIDADE.CODIGO = IGREJA.CODIGO_CIDADE)\n" +
+                "   GROUP BY CIDADE.CODIGO\n" +
+                "  ) I,\n" +
+                "\n" +
+                "  (SELECT  CIDADE.CODIGO as c_codigo_m,  COUNT(MUSEU.CODIGO) AS count_m FROM CIDADE, MUSEU\n" +
+                "WHERE CIDADE.CODIGO = MUSEU.CODIGO_CIDADE\n" +
+                "GROUP BY CIDADE.CODIGO) M,\n" +
+                "\n" +
+                "  (SELECT\n" +
+                "  CIDADE.CODIGO as c_codigo_cc,\n" +
+                "  COUNT(CASA_SHOW.CODIGO) AS count_cc\n" +
+                "FROM CIDADE, CASA_SHOW\n" +
+                "WHERE CIDADE.CODIGO = CASA_SHOW.CODIGO_CIDADE\n" +
+                "GROUP BY CIDADE.CODIGO) CC WHERE CC.c_codigo_cc = I.c_codigo_i AND I.c_codigo_i = M.c_codigo_m)) WHERE soma_atr = qnt_max)";
+
+        ResultSet rs = null;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String nome = rs.getString("n");
+                cidades.add(nome);
+
+                System.out.println(nome);
+            }
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("error ao pegar resultSet");
+            e.printStackTrace();
+        }
+
+        return cidades;
+    }
+
     public ArrayList<Igreja> dataConstIgreja(String str, boolean buscaNome) {
         Statement stmt = null;
         ArrayList<Igreja> nomeOuCodigo = new ArrayList<>();
@@ -207,6 +272,44 @@ public class Consulta {
         }
 
         return nome;
+    }
+
+    public String precoMedioQuartoHoteis(String cidade) {
+        Statement stmt = null;
+        String precoMedio = "";
+
+        try {
+            stmt = connection.createStatement();
+        } catch (SQLException e) {
+            System.out.println("error ao pegar statement");
+            e.printStackTrace();
+        }
+        String sql = "SELECT AVG(PRECO) AS preco_medio FROM (\n" +
+                "  SELECT * FROM QUARTO WHERE TIPO LIKE '%Luxury%' AND QUARTO.CODIGO_HOTEL IN (SELECT CODIGO FROM HOTEL " +
+                "WHERE CODIGO_CIDADE = (SELECT CODIGO FROM CIDADE WHERE NOME = '" + cidade + "'))\n" +
+                "    MINUS (\n" +
+                "      SELECT *\n" +
+                "      FROM QUARTO\n" +
+                "      WHERE TIPO LIKE '%Super%Luxury%'\n" +
+                "    )\n" +
+                ") GROUP BY TIPO";
+
+        ResultSet rs = null;
+        try {
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                precoMedio = rs.getString("preco_medio");
+                System.out.println(precoMedio);
+            }
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("error ao pegar resultSet");
+            e.printStackTrace();
+        }
+
+        return precoMedio;
     }
 
     public ArrayList<String> buscaFundadorMuseu(String museu) {

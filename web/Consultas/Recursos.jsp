@@ -1,5 +1,6 @@
 <%@ page import="DataBase.DBConnect" %>
-<%@ page import="Consultas.Consulta" %><%--
+<%@ page import="Consultas.Consulta" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: berg
   Date: 03/02/17
@@ -26,17 +27,19 @@
 
 <table border="2" CELLSPACING=2 CELLPADDING=6>
     <tr>
-        <TH>Cidade</TH>
+        <TH>Cidades</TH>
     </tr>
 
-        <%String nome = consulta.cidadePontoTuris();
-        if (nome != null && !nome.isEmpty()) {%>
-            <TR>
-                <TD> <%= nome %></td>
-            </TR>
-        <%} else {
-            out.println("Não foram encontrados resultados para a pesquisa...");
-        }%>
+    <%
+    ArrayList<String> cidades = consulta.cidadeComMaisRecursos();
+    for (int i = 0; i < cidades.size(); i++) { %>
+
+        <TR>
+            <TD> <%= cidades.get(i) %></td>
+        </TR>
+     <%}%>
+
+</table>
 
 </body>
 </html>
